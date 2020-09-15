@@ -14,7 +14,8 @@ class Word
     public $examples;
 
     public function save() {
-        $word_json = json_encode($this);
-        file_put_contents('words/' . $this->name . '.php', $word_json);
+        $words = json_decode(file_get_contents('words.json'));
+        $words[] = json_encode($this);
+        file_put_contents('words.json', json_encode($words));
     }
 }
