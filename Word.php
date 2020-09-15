@@ -12,4 +12,9 @@ class Word
     public $description;
     /** array $examples **/
     public $examples;
+
+    public function save() {
+        $word_json = json_encode($this);
+        file_put_contents('words/' . $this->name . '.php', $word_json, FILE_APPEND);
+    }
 }
