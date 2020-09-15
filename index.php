@@ -12,8 +12,6 @@ $house->examples = [
                     '2) The house was so small, the furnishings so very simple.'
                    ];
 
-
-
 echo $house->name . PHP_EOL;
 echo $house->transcription . PHP_EOL;
 echo $house->translation . PHP_EOL;
