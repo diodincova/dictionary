@@ -1,6 +1,7 @@
 <?php
 
-class Word {
+class Word 
+{
     /** string $name **/
     public $name;
     /** string $translation **/
@@ -9,7 +10,6 @@ class Word {
     public $transcription;
     /** string $description **/
     public $description;
-    /** string $examples **/
+    /** array $examples **/
     public $examples;
 }
-
