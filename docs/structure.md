@@ -1,3 +1,4 @@
+<!--
 ```
 @startuml classDiagram01
 
@@ -42,3 +43,5 @@ Exercise <|-- TranslationExercise
 
 @enduml
 ```
+-->
+![](classDiagram01.svg)
