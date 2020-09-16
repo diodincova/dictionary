@@ -1,5 +1,6 @@
 <?php
 require_once './Word.php';
+require_once './load.php';
 
 $house = new Word();
 
@@ -21,16 +22,10 @@ $tree->description = 'In botany, a tree is a perennial plant with an elongated s
 $tree->examples = [
     '1) Fruit grows on trees.', 
     '2) An apple fell from the tree.', 
-    '3) The cherry tree bloomed',
+    '3) The cherry tree bloomed.',
 ];   
 
 $house->save();
 $tree->save();
 
-echo $house->name . PHP_EOL;
-echo $house->transcription . PHP_EOL;
-echo $house->translation . PHP_EOL;
-echo $house->description . PHP_EOL;
-foreach($house->examples as $example) {
-    echo $example . PHP_EOL;
-}
+loadDictionaryWords();

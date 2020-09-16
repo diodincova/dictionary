@@ -15,7 +15,18 @@ class Word
 
     public function save() {
         $words = json_decode(file_get_contents('words.json'));
-        $words[] = json_encode($this);
+        $words[] = serialize($this);
         file_put_contents('words.json', json_encode($words));
+    }
+
+    public function print() {
+        echo 'name: ' . $this->name . PHP_EOL;
+        echo 'translation: ' . $this->transcription . PHP_EOL;
+        echo 'transcription: ' . $this->translation . PHP_EOL;
+        echo 'description: ' . $this->description . PHP_EOL;
+        echo 'examples: ' . PHP_EOL;
+        foreach($this->examples as $example) {
+            echo $example . PHP_EOL;
+        }
     }
 }
