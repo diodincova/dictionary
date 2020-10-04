@@ -33,4 +33,3 @@ $load = new Load();
 
 $wordObj = $load->getWord('tree');
 $wordObj->print();
-

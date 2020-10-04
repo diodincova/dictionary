@@ -1,6 +1,6 @@
 <?php
 
-class Word 
+class Word
 {
     public string $name;
     public string $translation;
@@ -9,10 +9,10 @@ class Word
     public array $examples;
 
     public function __construct(
-        string $name, 
-        string $translation, 
-        string $transcription, 
-        string $description, 
+        string $name,
+        string $translation,
+        string $transcription,
+        string $description,
         array $examples
     ) {
         $this->name = $name;
@@ -24,8 +24,12 @@ class Word
 
     public function save(): void
     {
-        $dictionary = json_decode(file_get_contents('data/words.json'), true);
-        
+        if (file_exists('data/words.json')) {
+            $dictionary = json_decode(file_get_contents('data/words.json'), true);
+        } else {
+            $dictionary = [];
+        }
+
         if (isset($dictionary[$this->name])) {
             return;
         }
@@ -49,7 +53,7 @@ class Word
         echo 'description: ' . $this->description . PHP_EOL;
         echo 'examples: ' . PHP_EOL;
 
-        foreach($this->examples as $example) {
+        foreach ($this->examples as $example) {
             echo $example . PHP_EOL;
         }
     }
