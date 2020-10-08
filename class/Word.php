@@ -1,6 +1,6 @@
 <?php
 
-class Word 
+class Word
 {
     private string $name;
     private string $translation;
@@ -9,10 +9,10 @@ class Word
     private array $examples;
 
     public function __construct(
-        string $name, 
-        string $translation, 
-        string $transcription, 
-        string $description, 
+        string $name,
+        string $translation,
+        string $transcription,
+        string $description,
         array $examples
     ) {
         $this->name = $name;
@@ -41,7 +41,7 @@ class Word
         echo 'description: ' . $this->description . PHP_EOL;
         echo 'examples: ' . PHP_EOL;
 
-        foreach($this->examples as $example) {
+        foreach ($this->examples as $example) {
             echo $example . PHP_EOL;
         }
     }
