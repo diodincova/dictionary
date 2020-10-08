@@ -6,11 +6,13 @@ class Dictionary
     private string $path = './data/words.json';
     private array $data;
     
-    private function __construct() {
+    private function __construct()
+    {
         $this->data = json_decode(file_get_contents($this->path), true);
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (is_null(self::$instance)) {
             self::$instance = new self;
         }
