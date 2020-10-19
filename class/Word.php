@@ -2,11 +2,11 @@
 
 class Word
 {
-    public string $name;
-    public string $translation;
-    public string $transcription;
-    public string $description;
-    public array $examples;
+    private string $name;
+    private string $translation;
+    private string $transcription;
+    private string $description;
+    private array $examples;
 
     public function __construct(
         string $name,
@@ -22,27 +22,15 @@ class Word
         $this->examples = $examples;
     }
 
-    public function save(): void
+    public function getInfo(): array
     {
-        if (file_exists('data/words.json')) {
-            $dictionary = json_decode(file_get_contents('data/words.json'), true);
-        } else {
-            $dictionary = [];
-        }
-
-        if (isset($dictionary[$this->name])) {
-            return;
-        }
-
-        $dictionary[$this->name] = [
+        return [
             'name' => $this->name,
             'translation' => $this->translation,
             'transcription' => $this->transcription,
             'description' => $this->description,
             'examples' => $this->examples,
         ];
-
-        file_put_contents('data/words.json', json_encode($dictionary, JSON_UNESCAPED_UNICODE));
     }
 
     public function print(): void
