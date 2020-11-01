@@ -2,8 +2,7 @@
 
 class Dictionary
 {
-    private string $file;
-    private array $data = [];
+    private MyPDO $connection;
     private array $questions = [
         [
             'q' => 'Введите слово: ',
@@ -27,50 +26,66 @@ class Dictionary
         ],
     ];
     
-    public function __construct(string $file)
+    public function __construct(MyPDO $connection)
     {
-        $this->file = $file;
-
-        if (file_exists($file)) {
-            $this->data = json_decode(file_get_contents($file), true);
-        }
-    }
-
-    public function saveDictionary(): void
-    {
-        file_put_contents($this->file, json_encode($this->data, JSON_UNESCAPED_UNICODE));
+        $this->connection = $connection;
     }
 
     public function getWord(string $name): ?Word
     {
-        if (!$this->isWordExist($name)) {
+        $query = "
+            SELECT
+                name,
+                translation,
+                transcription,
+                description,
+                examples
+            FROM dictionary
+            WHERE name = :name
+        ";
+
+        $word = $this->connection->getRow($query, ['name' => $name]);
+        
+        if (!$word) {
             return null;
         }
-
+        
         return new Word(
-            $this->data[$name]['name'],
-            $this->data[$name]['translation'],
-            $this->data[$name]['transcription'],
-            $this->data[$name]['description'],
-            $this->data[$name]['examples'],
+            $word['name'],
+            $word['translation'],
+            $word['transcription'],
+            $word['description'],
+            explode('&', $word['examples']),
         );
     }
 
     public function saveWord(array $word): void
     {
-        $name = $word['name'];
-        $this->data[$name] = $word;
+        $query = "
+            INSERT INTO dictionary (
+                name, 
+                translation, 
+                transcription, 
+                description, 
+                examples
+            )
+            VALUES (
+                :name, 
+                :translation, 
+                :transcription, 
+                :description, 
+                :examples
+        )";
 
-        $this->saveDictionary();
+        $this->connection->insert($query, $word);
     }
 
-    public function runLoader()
+    public function runLoader(): void
     {
         while (true) {
             $word = [];
         
             for ($i = 0; $i < count($this->questions); $i++) {
-            
                 $line = trim(readline($this->questions[$i]['q']));
             
                 if (empty($line)) {
@@ -83,14 +98,10 @@ class Dictionary
                     $i--;
                     continue;
                 }
-                
-                if ($this->questions[$i]['index'] == 'examples') {
-                    $line = explode('&', $line);
-                }
             
                 $word[$this->questions[$i]['index']] = $line;
             }
-            
+
             $this->saveWord($word);
         }
     }
@@ -99,10 +110,17 @@ class Dictionary
     {
         $name = mb_strtolower($name);
 
-        if (array_key_exists($name, $this->data)) {
-            return true;
+        $query = "
+            SELECT id 
+            FROM dictionary 
+            WHERE name = :name";
+
+        $res = $this->connection->getRow($query, ['name' => $name]);
+
+        if (!$res) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }
