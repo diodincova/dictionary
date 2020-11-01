@@ -4,7 +4,8 @@ require_once './class/Word.php';
 require_once './class/Dictionary.php';
 require_once './class/MyPDO.php';
 
-$dictionary = new Dictionary('english');
+$connection = new MyPDO('data/english.db');
+$dictionary = new Dictionary($connection);
 
 $tree = $dictionary->getWord('tree');
 

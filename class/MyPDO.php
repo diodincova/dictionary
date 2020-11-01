@@ -1,19 +1,10 @@
 <?php
 
-class MyPDO
+class MyPDO extends PDO
 {
-    private PDO $pdo;
-
-    public function __construct(string $dbname)
+    public function __construct(string $database)
     {
-        $file = 'data/' . $dbname . '.db';
-
-        if (!file_exists($file)) {
-            file_put_contents($file, '');
-        }
-
-        $this->pdo = new PDO('sqlite:' . $file, '', '', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        $this->pdo->exec(file_get_contents('config/shema.sql'));
+        parent::__construct('sqlite:' . $database);
     }
 
     public function getRow(string $query, array $args = [])
@@ -29,7 +20,7 @@ class MyPDO
     public function insert(string $query, array $args = [])
     {
         $this->sql($query, $args);
-        return $this->pdo->lastInsertId();
+        return $this->lastInsertId();
     }       
 
     public function update(string $query, array $args = [])
@@ -44,7 +35,7 @@ class MyPDO
 
     private function sql(string $query, array $args)
     {
-        $stmt = $this->pdo->prepare($query);  
+        $stmt = $this->prepare($query);
         $stmt->execute($args);
 
         return $stmt;

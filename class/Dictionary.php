@@ -2,7 +2,7 @@
 
 class Dictionary
 {
-    private MyPDO $myPDO;
+    private MyPDO $connection;
     private array $questions = [
         [
             'q' => 'Введите слово: ',
@@ -26,16 +26,25 @@ class Dictionary
         ],
     ];
     
-    public function __construct(string $dbname)
-    {   
-        $this->myPDO = new MyPDO($dbname);
+    public function __construct(MyPDO $connection)
+    {
+        $this->connection = $connection;
     }
 
     public function getWord(string $name): ?Word
     {
-        $query = "SELECT * FROM dictionary WHERE name = :name";
+        $query = "
+            SELECT
+                name,
+                translation,
+                transcription,
+                description,
+                examples
+            FROM dictionary
+            WHERE name = :name
+        ";
 
-        $word = $this->myPDO->getRow($query, ['name' => $name]);
+        $word = $this->connection->getRow($query, ['name' => $name]);
         
         if (!$word) {
             return null;
@@ -52,10 +61,23 @@ class Dictionary
 
     public function saveWord(array $word): void
     {
-        $query = "INSERT INTO dictionary (name, translation, transcription, description, examples)
-                  VALUES (:name, :translation, :transcription, :description, :examples)";          
+        $query = "
+            INSERT INTO dictionary (
+                name, 
+                translation, 
+                transcription, 
+                description, 
+                examples
+            )
+            VALUES (
+                :name, 
+                :translation, 
+                :transcription, 
+                :description, 
+                :examples
+        )";
 
-        $id = $this->myPDO->insert($query, $word);
+        $this->connection->insert($query, $word);
     }
 
     public function runLoader(): void
@@ -87,15 +109,18 @@ class Dictionary
     protected function isWordExist(string $name): bool
     {
         $name = mb_strtolower($name);
-        
-        $query = "SELECT id FROM dictionary WHERE name = :name";
 
-        $res = $this->myPDO->getRow($query, ['name' => $name]);
+        $query = "
+            SELECT id 
+            FROM dictionary 
+            WHERE name = :name";
 
-        if ($res) {
-            return true;
+        $res = $this->connection->getRow($query, ['name' => $name]);
+
+        if (!$res) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }
