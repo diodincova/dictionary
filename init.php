@@ -1,13 +1,12 @@
 <?php
 
-require_once './class/Word.php';
-require_once './class/Dictionary.php';
-require_once './class/MyPDO.php';
+use app\MyPDO;
+use app\Dictionary;
+
+require_once 'vendor/autoload.php';
 
 $data = 'data/english.db';
-
 $isDBExists = file_exists($data);
-
 $connection = new MyPDO($data);
 
 if (!$isDBExists) {
@@ -15,5 +14,4 @@ if (!$isDBExists) {
 }
 
 $dictionary = new Dictionary($connection);
-
-$dictionary->runLoader();
+$dictionary->consoleLoader();

@@ -1,6 +1,8 @@
 <?php
 
-class MyPDO extends PDO
+namespace app;
+
+class MyPDO extends \PDO
 {
     public function __construct(string $database)
     {
@@ -9,12 +11,12 @@ class MyPDO extends PDO
 
     public function getRow(string $query, array $args = [])
     {
-        return $this->sql($query, $args)->fetch(PDO::FETCH_ASSOC);
+        return $this->sql($query, $args)->fetch(\PDO::FETCH_ASSOC);
     }  
 
     public function getRows(string $query, array $args = [])
     {
-        return $this->sql($query, $args)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->sql($query, $args)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function insert(string $query, array $args = [])
@@ -37,7 +39,6 @@ class MyPDO extends PDO
     {
         $stmt = $this->prepare($query);
         $stmt->execute($args);
-
         return $stmt;
     }
 }

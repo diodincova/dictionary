@@ -1,0 +1,29 @@
+<?php /** @var string $content */ ?>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?php $this->block('title') ?><?php $this->endBlock() ?></title>
+</head>
+<body>
+
+    <?php $this->block('header') ?>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/append">Append Word</a></li>
+                    <li><a href="/update">Update Word</a></li>
+                </ul>
+            </nav>
+        </header>
+    <?php $this->endBlock() ?>
+
+    <?php $this->block('content') ?><?php $this->endBlock() ?>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<?php /** @var ?string $message  */ ?>
+
+<?php $this->extends('layout.phtml') ?>
+
+<?php $this->block('title') ?>Append<?php $this->endBlock() ?>
+
+<?php $this->block('content') ?>
+    <h1>Append word</h1>
+
+    <p><?php $this->get($message, 'escape') ?></p>
+
+    <form action="/append" method="POST">
+        <label>
+            <span>Name:</span><br>
+            <input type="text" name="name">
+        </label><br>
+        <label>
+            <span>Transcription:</span><br>
+            <input type="text" name="transcription">
+        </label><br>
+        <label>
+            <span>Translation</span><br>
+            <input type="text" name="translation">
+        </label><br>
+        <label>
+            <span>Description:</span><br>
+            <textarea name="description" cols="30" rows="5"></textarea>
+        </label><br>
+        <label>
+            <span>Exemaples:</span><br>
+            <textarea name="examples" id="examples" cols="30" rows="5" placeholder="between examples write '&'"></textarea>
+        </label><br>
+        <input type="submit" value="Сохранить">
+    </form>
+<?php $this->endBlock() ?>

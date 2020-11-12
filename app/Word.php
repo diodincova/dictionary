@@ -1,7 +1,10 @@
 <?php
 
+namespace app;
+
 class Word
 {
+    private int $id;
     private string $name;
     private string $translation;
     private string $transcription;
@@ -9,12 +12,14 @@ class Word
     private array $examples;
 
     public function __construct(
+        int $id,
         string $name,
         string $translation,
         string $transcription,
         string $description,
         array $examples
     ) {
+        $this->id = $id;
         $this->name = $name;
         $this->translation = $translation;
         $this->transcription = $transcription;
@@ -22,9 +27,10 @@ class Word
         $this->examples = $examples;
     }
 
-    public function getInfo(): array
+    public function getData(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'translation' => $this->translation,
             'transcription' => $this->transcription,

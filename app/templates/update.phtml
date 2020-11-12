@@ -1,0 +1,56 @@
+<?php
+    /**
+     * @var Renderer $this
+     * @var string $message
+     * @var array $word
+     * @var string $name
+     */
+?>
+
+<?php $this->extends('layout.phtml') ?>
+
+<?php $this->block('title') ?>Update<?php $this->endBlock() ?>
+
+<?php $this->block('content') ?>
+    <h1>Update word</h1>
+
+    <p><?=$this->get($message, 'escape') ?></p>
+
+    <form action="/update" method="GET">
+        <input type="text" name="word">
+        <input type="submit" value="Искать">
+    </form>
+
+    <?php if (!empty($word)): ?>
+        <form action="/update" method="POST">
+            <input type="hidden" name="id" value="<?php $this->get($word['id'], 'escape') ?>">
+            <label>
+                <span>Name:</span><br>
+                <input type="text" name="name" value="<?php $this->get($word['name'], 'escape') ?>">
+            </label><br>
+            <label>
+                <span>Transcription:</span>
+                <br>
+                <input type="text" name="transcription" value="<?php $this->get($word['transcription'], 'escape') ?>">
+            </label><br>
+            <label>
+                <span>Translation:</span><br>
+                <input type="text" name="translation" value="<?php $this->get($word['translation'], 'escape') ?>">
+            </label><br>
+            <label>
+                <span>Description:</span><br>
+                <textarea name="description"><?php $this->get($word['description'], 'escape') ?></textarea>
+            </label><br>
+            <label>
+                <span>Examples:</span><br>
+                <textarea name="examples"><?php $this->get($word['examples'], 'escape') ?></textarea>
+            </label><br>
+            <input type="submit" value="Сохранить">
+        </form>
+
+        <form action="/delete" method="GET">
+            <input type="hidden" name="id" value="<?php $this->get($word['id'], 'escape') ?>">
+            <input type="submit" value="Удалить">
+        </form>
+    <?php endif ?>
+<?php $this->endBlock() ?>

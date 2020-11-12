@@ -2,4 +2,7 @@
 .idea
 
 #project
-words.json
+vendor
+
+data/words.json
+data/english_data.sql

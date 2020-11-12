@@ -1,20 +1,21 @@
 <?php
 
-require_once './class/Word.php';
-require_once './class/Dictionary.php';
-require_once './class/MyPDO.php';
+use app\MyPDO;
+use app\Dictionary;
 
-$connection = new MyPDO('data/english.db');
+require_once 'vendor/autoload.php';
+
+$data = 'data/english.db';
+$isDBExists = file_exists($data);
+$connection = new MyPDO($data);
+
+if (!$isDBExists) {
+    $connection->exec(file_get_contents('config/shema.sql'));
+}
+
 $dictionary = new Dictionary($connection);
-
 $tree = $dictionary->getWord('tree');
 
 if (!is_null($tree)) {
     $tree->print();
-}
-
-$house = $dictionary->getWord('house');
-
-if (!is_null($house)) {
-    $house->print();
 }

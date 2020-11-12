@@ -1,0 +1,23 @@
+{
+    "name": "evgenykuzmin/dictionary2",
+    "authors": [
+        {
+            "name": "skchel174",
+            "email": "skchel174@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-readline": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        }
+    },
+    "scripts": {
+        "serve": "php -S localhost:3000 -t public"
+    },
+    "config": {
+        "process-timeout": 0
+    }
+}

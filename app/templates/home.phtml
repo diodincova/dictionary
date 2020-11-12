@@ -1,0 +1,37 @@
+<?php
+    /**
+     * @var TemplateRenderer $this
+     * @var array $content - words
+     */
+?>
+
+<?php $this->extends('layout.phtml') ?>
+
+<?php $this->block('title') ?>Home<?php $this->endBlock() ?>
+
+<?php $this->block('content') ?>
+    <h1>Dictionary</h1>
+
+    <?php foreach ($content as $word): ?>
+        <div>
+            <p>
+                <b><?php $this->get($word['name'], 'escape') ?></b>
+                [ <?php $this->get($word['transcription'], 'escape') ?> ] -
+                <?php $this->get($word['translation'], 'escape') ?>
+            </p>
+            <p>
+                Description:
+                <?php $this->get($word['description'], 'escape') ?>
+            </p>
+            <p>Examples:</p>
+            <ol>
+                <?php foreach (explode('&', $word['examples']) as $example): ?>
+                    <li><?php $this->get($example, 'escape') ?></li>
+                <?php endforeach ?>
+            </ol>
+        </div>
+        <hr>
+    <?php endforeach ?>
+
+<?php $this->endBlock() ?>
+
